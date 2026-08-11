@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ドーナツグラフ: 構成比 | Chart.js チュートリアル</title>
+  <title>ドーナツグラフ: 構成比の推移 | Chart.js チュートリアル</title>
   <link rel="stylesheet" href="../style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 </head>
 <body>
   <div class="container">
     <nav><a href="../index.html">&larr; サンプル一覧に戻る</a></nav>
-    <h1>ドーナツグラフ: 構成比</h1>
+    <h1>ドーナツグラフ: 構成比の推移</h1>
     <p class="description">
-      世界銀行の指標 <code id="indicator-label"></code> について、世界全体に占める国別シェアを表示します。
-      選択国以外は「その他」として残差で加え、合計が世界総計と一致するようにしています。
+      世界銀行の指標 <code id="indicator-label"></code> について、世界全体に占める国別シェアを
+      3 年間隔で新しい年から順に表示します。選択国以外は「その他」として残差で加え、
+      合計が世界総計と一致するようにしています。
       データを変えるには <code>pie.js</code> 先頭の <code>CONFIG</code> を書き換えてください。
     </p>
     <div class="chart-box">
       <div id="status" class="status">データを読み込んでいます…</div>
-      <canvas id="chart"></canvas>
+      <div id="legend" class="shared-legend"></div>
+      <div id="charts" class="chart-grid"></div>
     </div>
     <div class="note">
       <h2>経済データを円・ドーナツグラフで扱う際の注意</h2>
