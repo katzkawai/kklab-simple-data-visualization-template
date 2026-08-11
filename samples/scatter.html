@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>散布図: 2指標の相関 | Chart.js チュートリアル</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="../index.html">&larr; サンプル一覧に戻る</a></nav>
+    <h1>散布図: 2 つの指標の相関</h1>
+    <p class="description">
+      2 つの世界銀行指標 (横軸 <code id="indicator-x-label"></code> / 縦軸 <code id="indicator-y-label"></code>)
+      の関係を国ごとにプロットします。
+      データを変えるには <code>scatter.js</code> 先頭の <code>CONFIG</code> を書き換えてください。
+    </p>
+    <div class="chart-box">
+      <div id="status" class="status">データを読み込んでいます…</div>
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+  <script src="../js/worldbank.js"></script>
+  <script src="scatter.js"></script>
+</body>
+</html>

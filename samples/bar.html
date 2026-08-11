@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>棒グラフ: 国別比較 | Chart.js チュートリアル</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <div class="container">
+    <nav><a href="../index.html">&larr; サンプル一覧に戻る</a></nav>
+    <h1>棒グラフ: 国別の比較</h1>
+    <p class="description">
+      世界銀行の指標 <code id="indicator-label"></code> を特定の年で国別に比較します。
+      データを変えるには <code>bar.js</code> 先頭の <code>CONFIG</code> を書き換えてください。
+    </p>
+    <div class="chart-box">
+      <div id="status" class="status">データを読み込んでいます…</div>
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+  <script src="../js/worldbank.js"></script>
+  <script src="bar.js"></script>
+</body>
+</html>

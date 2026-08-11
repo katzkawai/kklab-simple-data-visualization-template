@@ -1,0 +1,76 @@
+/* 全サンプル共通の最小限のスタイル */
+body {
+  font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  margin: 0;
+  background: #f7f8fa;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.chart-box {
+  background: #fff;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.status {
+  padding: 24px;
+  text-align: center;
+  color: #888;
+}
+
+.status.error {
+  color: #c0392b;
+}
+
+nav a {
+  color: #2b6cb0;
+}
+
+.sample-list {
+  list-style: none;
+  padding: 0;
+}
+
+.sample-list li {
+  background: #fff;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  margin: 12px 0;
+  padding: 16px;
+}
+
+.sample-list a {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2b6cb0;
+  text-decoration: none;
+}
+
+.sample-list p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+code {
+  background: #eef1f4;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
