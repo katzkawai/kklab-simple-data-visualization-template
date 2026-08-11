@@ -12,12 +12,22 @@
     <nav><a href="../index.html">&larr; サンプル一覧に戻る</a></nav>
     <h1>ドーナツグラフ: 構成比</h1>
     <p class="description">
-      世界銀行の指標 <code id="indicator-label"></code> の国別シェアを表示します。
+      世界銀行の指標 <code id="indicator-label"></code> について、世界全体に占める国別シェアを表示します。
+      選択国以外は「その他」として残差で加え、合計が世界総計と一致するようにしています。
       データを変えるには <code>pie.js</code> 先頭の <code>CONFIG</code> を書き換えてください。
     </p>
     <div class="chart-box">
       <div id="status" class="status">データを読み込んでいます…</div>
       <canvas id="chart"></canvas>
+    </div>
+    <div class="note">
+      <h2>経済データを円・ドーナツグラフで扱う際の注意</h2>
+      <ul>
+        <li>円・ドーナツグラフは、全要素の合計が意味のある「全体」になるデータにだけ使います (このサンプルでは世界総計に対するシェアとしています)。</li>
+        <li>「その他」は残差で計算しているため、統計上の不一致や集計対象外の経済圏を含むことがあります。</li>
+        <li>構成要素が多いと読みにくくなるため、上位 N か国 + その他に絞るのが一般的です。</li>
+        <li>構成比は絶対量の変化を表しません。シェアが下がっても絶対量は増えている場合があります。</li>
+      </ul>
     </div>
   </div>
   <script src="../js/worldbank.js"></script>

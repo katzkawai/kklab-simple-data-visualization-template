@@ -19,6 +19,14 @@
       <div id="status" class="status">データを読み込んでいます…</div>
       <canvas id="chart"></canvas>
     </div>
+    <div class="note">
+      <h2>経済データを国別に比較する際の注意</h2>
+      <ul>
+        <li>名目 GDP (<code>NY.GDP.MKTP.CD</code>) は市場為替レートで換算されるため、為替変動で順位や差が大きく変わります。購買力平価 (PPP) ベースの指標 (<code>NY.GDP.MKTP.PP.CD</code>) とは結果が異なります。</li>
+        <li>対象年のデータが未公表の国は除外されます。比較対象が揃っているか確認してください。</li>
+        <li>単一年の値はその年固有の要因 (為替、資源価格、パンデミック等) に左右されます。複数年の推移と併せて見るのが安全です。</li>
+      </ul>
+    </div>
   </div>
   <script src="../js/worldbank.js"></script>
   <script src="bar.js"></script>

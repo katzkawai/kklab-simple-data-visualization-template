@@ -1,17 +1,25 @@
 /**
- * ドーナツグラフのサンプル: 特定の年の指標を国別シェアで表示する。
+ * ドーナツグラフのサンプル: 特定の年の指標について、世界全体に占める国別シェアを表示する。
+ *
+ * ドーナツ (円) グラフは「全体に対する部分」を表すグラフなので、
+ * 全要素の合計が意味のある全体になるデータを使う必要がある。
+ * このサンプルでは世界全体 (WLD) の値も取得し、選択国以外を
+ * 「その他」として残差で加えることで、合計が世界総計と一致するようにしている。
+ *
  * データを変えたいときは、下の CONFIG だけを書き換えればよい。
  */
 const CONFIG = {
   indicator: 'NY.GDP.MKTP.CD',                // 指標コード (例: GDP・米ドル)
-  countries: ['JP', 'US', 'CN', 'DE', 'IN'],  // 国コード (ISO2 または ISO3、複数可)
+  countries: ['US', 'CN', 'JP', 'DE', 'IN'],  // 国コード (ISO2 または ISO3、複数可)
   year: 2022,   // 対象年
 };
 
 const COLORS = ['#2b6cb0', '#e53e3e', '#38a169', '#d69e2e', '#805ad5', '#dd6b20'];
+const OTHER_COLOR = '#a0aec0'; // 「その他」の色 (グレー)
 
 async function main() {
-  const rows = await WorldBank.fetchIndicator(CONFIG.countries, CONFIG.indicator, {
+  // 世界全体 (WLD) と選択国をまとめて取得する
+  const rows = await WorldBank.fetchIndicator(['WLD', ...CONFIG.countries], CONFIG.indicator, {
     startYear: CONFIG.year,
     endYear: CONFIG.year,
   });
@@ -25,27 +33,39 @@ async function main() {
   document.getElementById('indicator-label').textContent =
     `${CONFIG.indicator} (${indicatorName})`;
 
-  const total = rows.reduce((sum, r) => sum + r.value, 0);
+  const worldRow = rows.find((r) => r.countryCode === 'WLD');
+  if (!worldRow) {
+    throw new Error('世界全体 (WLD) のデータがありません。year を変更してください。');
+  }
+
+  const countries = rows.filter((r) => r.countryCode !== 'WLD');
+
+  // 「その他」= 世界総計 − 選択国の合計。これで全要素の合計が世界総計と一致する
+  const restValue = worldRow.value - countries.reduce((sum, r) => sum + r.value, 0);
+  const slices = [...countries];
+  if (restValue > 0) {
+    slices.push({ country: 'その他', value: restValue });
+  }
 
   new Chart(document.getElementById('chart'), {
     type: 'doughnut',
     data: {
-      labels: rows.map((r) => r.country),
+      labels: slices.map((r) => r.country),
       datasets: [{
-        data: rows.map((r) => r.value),
-        backgroundColor: COLORS.slice(0, rows.length),
+        data: slices.map((r) => r.value),
+        backgroundColor: slices.map((_, i) => (i < countries.length ? COLORS[i % COLORS.length] : OTHER_COLOR)),
       }],
     },
     options: {
       responsive: true,
       plugins: {
-        title: { display: true, text: `${indicatorName} のシェア (${CONFIG.year})` },
+        title: { display: true, text: `世界の ${indicatorName} に占めるシェア (${CONFIG.year})` },
         legend: { position: 'right' },
         tooltip: {
           callbacks: {
-            // ツールチップに値とシェア (%) を併記する
+            // ツールチップに値と世界総計に占める割合 (%) を併記する
             label: (ctx) =>
-              ` ${ctx.parsed.toLocaleString()} (${((ctx.parsed / total) * 100).toFixed(1)}%)`,
+              ` ${ctx.parsed.toLocaleString()} (${((ctx.parsed / worldRow.value) * 100).toFixed(1)}%)`,
           },
         },
       },

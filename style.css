@@ -74,3 +74,27 @@ code {
   border-radius: 4px;
   padding: 1px 5px;
 }
+
+/* 経済データを扱う際の注意点ボックス */
+.note {
+  background: #fffbea;
+  border: 1px solid #f0e0a8;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: 0.85rem;
+}
+
+.note h2 {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+.note ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.note li {
+  margin: 4px 0;
+}

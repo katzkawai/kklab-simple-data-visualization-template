@@ -20,6 +20,15 @@
       <div id="status" class="status">データを読み込んでいます…</div>
       <canvas id="chart"></canvas>
     </div>
+    <div class="note">
+      <h2>経済データを散布図で扱う際の注意</h2>
+      <ul>
+        <li>相関関係は因果関係を意味しません。背後に第 3 の要因 (教育水準、医療制度など) がある可能性を常に検討してください。</li>
+        <li>一人当たり GDP は国間で分布が大きく歪むため、横軸を対数スケールにすると関係が見えやすくなることが多いです (<code>scales.x.type: 'logarithmic'</code>)。</li>
+        <li>単一年の断面データです。対象年を変えると関係の見え方が変わることがあります。</li>
+        <li>両指標ともデータがある国だけがプロットされます。欠損の多い国 (小さな島嶼国など) が除外されている点に留意してください。</li>
+      </ul>
+    </div>
   </div>
   <script src="../js/worldbank.js"></script>
   <script src="scatter.js"></script>
