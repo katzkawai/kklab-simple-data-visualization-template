@@ -9,8 +9,6 @@ const CONFIG = {
 };
 
 async function main() {
-  document.getElementById('indicator-label').textContent = CONFIG.indicator;
-
   // 指定した 1 年分だけ取得する
   const rows = await WorldBank.fetchIndicator(CONFIG.countries, CONFIG.indicator, {
     startYear: CONFIG.year,
@@ -21,12 +19,17 @@ async function main() {
     throw new Error(`${CONFIG.year} 年のデータがありません。year を変更してください。`);
   }
 
+  // 指標の正式名称をコードに併記する
+  const indicatorName = rows[0].indicator;
+  document.getElementById('indicator-label').textContent =
+    `${CONFIG.indicator} (${indicatorName})`;
+
   new Chart(document.getElementById('chart'), {
     type: 'bar',
     data: {
       labels: rows.map((r) => r.country),
       datasets: [{
-        label: `${CONFIG.indicator} (${CONFIG.year})`,
+        label: `${indicatorName} (${CONFIG.year})`,
         data: rows.map((r) => r.value),
         backgroundColor: '#2b6cb0',
       }],
@@ -34,7 +37,7 @@ async function main() {
     options: {
       responsive: true,
       plugins: {
-        title: { display: true, text: `${CONFIG.indicator} 国別比較 (${CONFIG.year})` },
+        title: { display: true, text: `${indicatorName} 国別比較 (${CONFIG.year})` },
         legend: { display: false },
       },
       scales: {

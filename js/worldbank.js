@@ -9,7 +9,8 @@
  *     startYear: 2000,
  *     endYear: 2023,
  *   });
- *   // rows = [{ countryCode: 'JPN', country: 'Japan', year: 2000, value: 126... }, ...]
+ *   // rows = [{ countryCode: 'JPN', country: 'Japan', indicator: 'Population, total',
+ *   //            year: 2000, value: 126... }, ...]
  */
 const WorldBank = (() => {
   const BASE_URL = 'https://api.worldbank.org/v2';
@@ -20,7 +21,7 @@ const WorldBank = (() => {
    * @param {string|string[]} countryCodes 国コード (ISO2: 'JP' / ISO3: 'JPN')。複数国は配列で。
    * @param {string} indicatorId 指標コード (例: 'SP.POP.TOTL')
    * @param {{startYear?: number, endYear?: number}} [options] 取得期間 (既定: 2000〜最新)
-   * @returns {Promise<Array<{countryCode: string, country: string, year: number, value: number}>>}
+   * @returns {Promise<Array<{countryCode: string, country: string, indicator: string, year: number, value: number}>>}
    *   年昇順・値が null の行は除外済みの配列
    */
   async function fetchIndicator(countryCodes, indicatorId, options = {}) {
@@ -48,6 +49,7 @@ const WorldBank = (() => {
       .map((row) => ({
         countryCode: row.countryiso3code || row.country.id,
         country: row.country.value,
+        indicator: row.indicator.value, // 指標の正式名称 (英語。例: "Population, total")
         year: Number(row.date),
         value: row.value,
       }))

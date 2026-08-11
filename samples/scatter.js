@@ -13,9 +13,6 @@ const CONFIG = {
 };
 
 async function main() {
-  document.getElementById('indicator-x-label').textContent = CONFIG.indicatorX;
-  document.getElementById('indicator-y-label').textContent = CONFIG.indicatorY;
-
   // 2 つの指標を並行して取得する
   const [rowsX, rowsY] = await Promise.all([
     WorldBank.fetchIndicator(CONFIG.countries, CONFIG.indicatorX, {
@@ -25,6 +22,16 @@ async function main() {
       startYear: CONFIG.year, endYear: CONFIG.year,
     }),
   ]);
+
+  if (rowsX.length === 0 || rowsY.length === 0) {
+    throw new Error(`${CONFIG.year} 年のデータがありません。year を変更してください。`);
+  }
+
+  // 指標の正式名称をコードに併記する
+  const nameX = rowsX[0].indicator;
+  const nameY = rowsY[0].indicator;
+  document.getElementById('indicator-x-label').textContent = `${CONFIG.indicatorX} (${nameX})`;
+  document.getElementById('indicator-y-label').textContent = `${CONFIG.indicatorY} (${nameY})`;
 
   // 国コードをキーに縦軸の値を引けるようにする
   const yByCountry = new Map(rowsY.map((r) => [r.countryCode, r.value]));
@@ -42,7 +49,7 @@ async function main() {
     type: 'scatter',
     data: {
       datasets: [{
-        label: `${CONFIG.indicatorY} vs ${CONFIG.indicatorX} (${CONFIG.year})`,
+        label: `${nameY} vs ${nameX} (${CONFIG.year})`,
         data: points,
         backgroundColor: '#2b6cb0',
         pointRadius: 6,
@@ -51,7 +58,7 @@ async function main() {
     options: {
       responsive: true,
       plugins: {
-        title: { display: true, text: `${CONFIG.indicatorY} vs ${CONFIG.indicatorX} (${CONFIG.year})` },
+        title: { display: true, text: `${nameY} vs ${nameX} (${CONFIG.year})` },
         legend: { display: false },
         tooltip: {
           callbacks: {
@@ -62,8 +69,8 @@ async function main() {
         },
       },
       scales: {
-        x: { title: { display: true, text: CONFIG.indicatorX } },
-        y: { title: { display: true, text: CONFIG.indicatorY } },
+        x: { title: { display: true, text: nameX } },
+        y: { title: { display: true, text: nameY } },
       },
     },
   });

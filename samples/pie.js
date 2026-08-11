@@ -11,8 +11,6 @@ const CONFIG = {
 const COLORS = ['#2b6cb0', '#e53e3e', '#38a169', '#d69e2e', '#805ad5', '#dd6b20'];
 
 async function main() {
-  document.getElementById('indicator-label').textContent = CONFIG.indicator;
-
   const rows = await WorldBank.fetchIndicator(CONFIG.countries, CONFIG.indicator, {
     startYear: CONFIG.year,
     endYear: CONFIG.year,
@@ -21,6 +19,11 @@ async function main() {
   if (rows.length === 0) {
     throw new Error(`${CONFIG.year} 年のデータがありません。year を変更してください。`);
   }
+
+  // 指標の正式名称をコードに併記する
+  const indicatorName = rows[0].indicator;
+  document.getElementById('indicator-label').textContent =
+    `${CONFIG.indicator} (${indicatorName})`;
 
   const total = rows.reduce((sum, r) => sum + r.value, 0);
 
@@ -36,7 +39,7 @@ async function main() {
     options: {
       responsive: true,
       plugins: {
-        title: { display: true, text: `${CONFIG.indicator} のシェア (${CONFIG.year})` },
+        title: { display: true, text: `${indicatorName} のシェア (${CONFIG.year})` },
         legend: { position: 'right' },
         tooltip: {
           callbacks: {

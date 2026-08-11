@@ -13,12 +13,19 @@ const CONFIG = {
 const COLORS = ['#2b6cb0', '#e53e3e', '#38a169', '#d69e2e', '#805ad5', '#dd6b20'];
 
 async function main() {
-  document.getElementById('indicator-label').textContent = CONFIG.indicator;
-
   const rows = await WorldBank.fetchIndicator(CONFIG.countries, CONFIG.indicator, {
     startYear: CONFIG.startYear,
     endYear: CONFIG.endYear,
   });
+
+  if (rows.length === 0) {
+    throw new Error('データがありません。指標コード・国コード・期間を確認してください。');
+  }
+
+  // 指標の正式名称をコードに併記する (例: "SP.POP.TOTL (Population, total)")
+  const indicatorName = rows[0].indicator;
+  document.getElementById('indicator-label').textContent =
+    `${CONFIG.indicator} (${indicatorName})`;
 
   // 取得した年の一覧 (横軸のラベル)
   const years = [...new Set(rows.map((r) => r.year))].sort((a, b) => a - b);
@@ -44,7 +51,7 @@ async function main() {
       responsive: true,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        title: { display: true, text: `${CONFIG.indicator} (${CONFIG.startYear}〜${CONFIG.endYear})` },
+        title: { display: true, text: `${indicatorName} (${CONFIG.startYear}〜${CONFIG.endYear})` },
         legend: { position: 'top' },
       },
       scales: {
